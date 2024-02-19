@@ -67,6 +67,15 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    # Aquí implementa la lógica para verificar el correo electrónico y crear un nuevo usuario
+    # Después de crear el usuario, genera un token JWT
+    token = generate_jwt_token(email)  # Esto es un pseudocódigo, debes implementar la generación de token JWT
+    return jsonify({'token': token}), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
