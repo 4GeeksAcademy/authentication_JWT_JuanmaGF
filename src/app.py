@@ -69,13 +69,25 @@ def serve_any_other_file(path):
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    # Aquí implementa la lógica para verificar el correo electrónico y crear un nuevo usuario
-    # Después de crear el usuario, genera un token JWT
-    token = generate_jwt_token(email)  # Esto es un pseudocódigo, debes implementar la generación de token JWT
-    return jsonify({'token': token}), 200
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+
+        existing_user = User.query.filter_by(email=email).first()
+
+        if existing_user:
+            return jsonify({'error': 'El usuario ya existe'}), 400
+
+        new_user = User(email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect('/login')
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'Error en el servidor'}), 500
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

@@ -47,27 +47,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//reset the global store
 				setStore({ demo: demo });
 			},
-			const BASE_URL = "https://upgraded-space-tribble-4xxw9pxx967hqj5g-3001.app.github.dev";
-
-
-				export const signUp = async (email, password) => {
-				try {
-					const response = await fetch(`${BASE_URL}/signup`, {
-						method: "POST",
-						headers: {
-        ‘Content - Type’: ‘application / json’,
-      },
-body: JSON.stringify({ email, password }),
-    });
-const data = await response.json();
-return data;
-  } catch (error) {
-	console.error(‘Error:’, error);
-	throw error; // Puedes manejar el error según tus necesidades
-}
-};
-
-			},
+			
 		}
 	};
 };
