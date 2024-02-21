@@ -1,43 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../store/appContext';
 
-const Signup = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+export const Signup = () => {
+  const { actions } = useContext(Context);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-	const handleSignup = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/signup', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ email, password }),
-			});
+  const handleSignup = () => {
+    actions.signup(email, password);
+  };
 
-			if (response.status === 200) {
-				window.location.href = '/login';
-			} else {
-				const data = await response.json();
-				alert(data.error || 'Error en el servidor');
-			}
-		} catch (error) {
-			console.error('Error de red:', error);
-			alert('Error de red');
-		}
-	};
-
-	return (
-		<div>
-			<h1>Registro</h1>
-			<label>Correo:</label>
-			<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-			<br />
-			<label>Contraseña:</label>
-			<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-			<br />
-			<button onClick={handleSignup}>Registrarse</button>
-		</div>
-	);
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card border-0 shadow-lg">
+            <div className="card-body">
+              <h1 className="card-title text-center mb-4">Registro</h1>
+              <form>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Correo:
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Contraseña:
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="text-center">
+                  <button type="button" className="btn btn-primary" onClick={handleSignup}>
+                    Registrarse
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
-
-export default Signup;

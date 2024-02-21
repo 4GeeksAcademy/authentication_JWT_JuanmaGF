@@ -1,22 +1,59 @@
-import React  from "react";
+import React, { useState, useContext } from 'react';
+import { Context } from '../store/appContext';
 
-export const Login = () => (
-    <div>
-        <form>
-            <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+export const Login = () => {
+  const { actions } = useContext(Context);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    actions.login(email, password);
+  };
+
+  return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card border-0 shadow-lg">
+            <div className="card-body">
+              <h1 className="card-title text-center mb-4">Iniciar Sesión</h1>
+              <form>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Correo:
+                  </label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Contraseña:
+                  </label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="text-center">
+                  <button type="button" className="btn btn-primary" onClick={handleLogin}>
+                    Iniciar Sesión
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className="mb-3">
-                <label for="exampleInputPassword1" className="form-label">Password</label>
-                <input type="password" className="form-control" id="exampleInputPassword1"/>
-            </div>
-            <div className="mb-3 form-check">
-                <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-                    <label className="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+          </div>
+        </div>
+      </div>
     </div>
-);
+  );
+};
