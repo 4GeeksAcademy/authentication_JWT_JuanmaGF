@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for, send_from_directory, redirect
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
@@ -84,11 +84,30 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect('/login')
+        return redirect('/login');
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+
+        # Validar credenciales (aquí asumimos que tienes un modelo User y usas una función authenticate)
+        user = User.authenticate(email, password)
+
+        if not user:
+            return jsonify({'error': 'Credenciales inválidas'}), 401
+
+        # Generar token (esto dependerá de cómo manejas la autenticación en tu aplicación)
+        token = generate_token(user)
+
+        return jsonify({'token': token})
 
     except Exception as e:
-        print(e)
-        return jsonify({'error': 'Error en el servidor'}), 500
+        return jsonify({'error': str(e)}), 500
     
 
 # this only runs if `$ python src/main.py` is executed

@@ -1,13 +1,34 @@
-import React, { useState, useContext } from 'react';
-import { Context } from '../store/appContext';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const Login = () => {
-  const { actions } = useContext(Context);
+export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    actions.login(email, password);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('https://upgraded-space-tribble-4xxw9pxx967hqj5g-3001.app.github.dev/api/hello', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        sessionStorage.setItem('token', data.token);
+        navigate('/private');
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.error);
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+    }
   };
 
   return (
@@ -17,7 +38,7 @@ export const Login = () => {
           <div className="card border-0 shadow-lg">
             <div className="card-body">
               <h1 className="card-title text-center mb-4">Iniciar Sesión</h1>
-              <form>
+              <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label htmlFor="email" className="form-label">
                     Correo:
@@ -45,7 +66,7 @@ export const Login = () => {
                   />
                 </div>
                 <div className="text-center">
-                  <button type="button" className="btn btn-primary" onClick={handleLogin}>
+                  <button type="submit" className="btn btn-primary">
                     Iniciar Sesión
                   </button>
                 </div>

@@ -14,7 +14,7 @@ export const Private = () => {
   return (
     <div>
       <h1>Página Privada</h1>
-      {/* Contenido de la página privada */}
+      Pagina Ultrasecreta que solo pueden ver los usuarios registrados 
     </div>
   );
 };

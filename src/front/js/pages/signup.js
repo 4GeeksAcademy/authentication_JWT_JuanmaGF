@@ -5,7 +5,7 @@ export const Signup = () => {
   const { actions } = useContext(Context);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+ 
   const handleSignup = () => {
     actions.signup(email, password);
   };
