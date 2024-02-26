@@ -84,7 +84,7 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
 
-        return redirect('/login');
+        return jsonify({ "ok": True}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

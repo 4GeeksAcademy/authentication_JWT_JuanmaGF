@@ -1,13 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { Context } from '../store/appContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Signup = () => {
   const { actions } = useContext(Context);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
  
   const handleSignup = () => {
-    actions.signup(email, password);
+    actions.signup(email, password, navigate);
   };
 
   return (

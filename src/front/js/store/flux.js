@@ -9,7 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       ],
     },
     actions: {
-      signup: async (email, password) => {
+      signup: async (email, password, navigate) => {
         try {
           const response = await fetch('https://upgraded-space-tribble-4xxw9pxx967hqj5g-3001.app.github.dev/signup', {
             method: 'POST',
