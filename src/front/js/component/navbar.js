@@ -19,6 +19,9 @@ export const Navbar = () => {
         <Link to="/">
           <span className="navbar-brand mb-0 h1">Authentication_JWT</span>
         </Link>
+        <Link to="/signup">
+          <button className="btn btn-success">Signup</button>
+        </Link>
         <div className="ml-auto">
           <Link to="/">
 		  <button className="btn btn-danger" onClick={handleLogout}>
