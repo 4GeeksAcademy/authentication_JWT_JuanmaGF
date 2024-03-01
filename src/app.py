@@ -95,13 +95,13 @@ def login():
         email = data.get('email')
         password = data.get('password')
 
-        # Validar credenciales (aquí asumimos que tienes un modelo User y usas una función authenticate)
+    
         user = User.authenticate(email, password)
 
         if not user:
             return jsonify({'error': 'Credenciales inválidas'}), 401
 
-        # Generar token (esto dependerá de cómo manejas la autenticación en tu aplicación)
+    
         token = generate_token(user)
 
         return jsonify({'token': token})
@@ -110,7 +110,7 @@ def login():
         return jsonify({'error': str(e)}), 500
     
 
-# this only runs if `$ python src/main.py` is executed
+
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
